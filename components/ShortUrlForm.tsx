@@ -1,15 +1,15 @@
 import type { SubmitHandler } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 
-import clsx from 'clsx'
+import { useMemo } from 'react'
 
 import { Copy, CheckCircle } from 'react-feather'
-
-import { useMemo, useState } from 'react'
 
 import { Button } from '@/ui/Button'
 import { Input } from '@/ui/Input'
 import { Badge } from '@/ui/Badge'
+
+import { useCopy } from '@/hooks/useCopy'
 
 type Data = {
   url: string
@@ -21,54 +21,41 @@ export function ShortUrlForm () {
   const {
     handleSubmit,
     register,
+    getValues,
     formState: {
       errors
     }
   } = useForm<Data>()
 
-  const [copy, setCopy] = useState(false)
+  const { copy, isCopying } = useCopy()
+
+  const handleCopy = () => {
+    const url = getValues('url')
+    copy(url)
+  }
 
   const onSubmit: SubmitHandler<Data> = (data) => {
     console.log(data.url)
   }
 
-  const handleCopy = () => {
-    setCopy(true)
-
-    window.setTimeout(
-      () => {
-        setCopy(false)
-      },
-      2000
-    )
-  }
-
-  const Icon = useMemo(
+  const urlError = useMemo(
     () => {
-      if (copy) {
-        return CheckCircle
-      }
+      switch (errors.url?.type) {
+        case 'required': {
+          return 'URL is required'
+        }
 
-      return Copy
+        case 'pattern': {
+          return 'Must be a valid URL'
+        }
+
+        default: {
+          return null
+        }
+      }
     },
-    [copy]
+    [errors.url]
   )
-
-  const urlErrors = () => {
-    switch (errors.url?.type) {
-      case 'required': {
-        return 'URL is required'
-      }
-
-      case 'pattern': {
-        return 'Must be a valid URL'
-      }
-
-      default: {
-        return null
-      }
-    }
-  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mt-14">
@@ -77,8 +64,8 @@ export function ShortUrlForm () {
           id="url"
           placeholder="https://www.example.com"
           label="Your URL"
-          info={copy === true ? 'Copied on clipboard' : null}
-          after={Icon}
+          info={isCopying ? 'Copied on clipboard' : null}
+          after={isCopying ? CheckCircle : Copy}
           register={register}
           onClickAfter={handleCopy}
           error={errors.url}
@@ -87,11 +74,11 @@ export function ShortUrlForm () {
           Shorten URL
         </Button>
       </div>
-      <div className="mt-2">
+      <div className="mt-2 h-6">
         {
-          errors.url?.type === 'required' && (
+          urlError && (
             <Badge variant="error">
-              Url is required
+              {urlError}
             </Badge>
           )
         }

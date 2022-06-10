@@ -1,31 +1,7 @@
-import { Copy } from 'react-feather'
-
 import { Container } from '@/ui/Container'
 import { Text } from '@/ui/Text'
 
-function ShortUrlsItem ({
-  original,
-  shorten
-}: {
-  original: string,
-  shorten: string
-}) {
-  return (
-    <tr className="border-b last:border-b-0 border-dotted border-neutral-700">
-      <td className="p-4">
-        {original}
-      </td>
-      <td className="p-4">
-        {shorten}
-      </td>
-      <td className="p-4 flex items-center justify-center">
-        <button>
-          <Copy className="w-5 h-5" />
-        </button>
-      </td>
-    </tr>
-  )
-}
+import { ShortUrlItem } from '@/components/ShortUrlItem'
 
 const links = [
   {
@@ -40,7 +16,7 @@ const links = [
   }
 ]
 
-export function ShortUrlsList () {
+export function ShortUrlList () {
   return (
     <div>
       <div className="border-y border-neutral-800 h-16 justify-center flex items-center">
@@ -59,11 +35,11 @@ export function ShortUrlsList () {
           </Text>
         </Container>
         <Container size="small">
-          <table className="w-full">
+          <table className="w-full align-middle ">
             <tbody>
               {
                 links.map(({ id, original, shorten }) => (
-                  <ShortUrlsItem
+                  <ShortUrlItem
                     key={id}
                     original={original}
                     shorten={shorten}

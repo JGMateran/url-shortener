@@ -1,10 +1,11 @@
 import type { NextPage } from 'next'
 
-import { ShortUrlForm } from '@/components/ShorUrlForm'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
+import { ShortUrlList } from '@/components/ShortUrlList'
+import { ShortUrlForm } from '@/components/ShortUrlForm'
+
 import { Container } from '@/ui/Container'
-import { ShortUrlsList } from '@/components/ShortUrlsList'
 import { Text } from '@/ui/Text'
 
 const Home: NextPage = () => {
@@ -23,7 +24,7 @@ const Home: NextPage = () => {
         <ShortUrlForm />
       </Container>
 
-      <ShortUrlsList />
+      <ShortUrlList />
 
       <Footer />
     </div>
