@@ -10,9 +10,7 @@ export default async function handler (
     if (url == null) {
       res.status(400).json({ error: 'url is required' })
     } else {
-      res.status(200).json({
-        url
-      })
+      res.status(200).json({ url })
     }
   } else {
     res.status(405).json({ error: 'method not allowed' })
