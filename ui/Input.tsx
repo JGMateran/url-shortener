@@ -5,6 +5,8 @@ import clsx from 'clsx'
 
 import { Badge } from '@/ui/Badge'
 
+import isURL from 'validator/lib/isURL'
+
 type InputProps = ComponentPropsWithoutRef<'input'> & {
   label?: string | null,
   info?: string | null,
@@ -68,7 +70,8 @@ export function Input ({
           type="text"
           className={classes}
           {...register('url', {
-            required: true
+            required: true,
+            validate: (value) => isURL(value)
           })}
           {...props}
         />
