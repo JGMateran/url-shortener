@@ -1,9 +1,7 @@
 import type { SubmitHandler } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 
-import { useMemo } from 'react'
-
-import { Copy, CheckCircle } from 'react-feather'
+import { Copy, Check } from 'react-feather'
 
 import { Button } from '@/ui/Button'
 import { Input } from '@/ui/Input'
@@ -14,8 +12,6 @@ import { useCopy } from '@/hooks/useCopy'
 type Data = {
   url: string
 }
-
-const IS_URL_PATTERN = /^(https?:\/\/)?([a-z0-9])?[a-z]+\.[a-z]{2,}(\/[a-z0-9$?=.])?/
 
 export function ShortUrlForm () {
   const {
@@ -38,25 +34,6 @@ export function ShortUrlForm () {
     console.log(data.url)
   }
 
-  const urlError = useMemo(
-    () => {
-      switch (errors.url?.type) {
-        case 'required': {
-          return 'URL is required'
-        }
-
-        case 'pattern': {
-          return 'Must be a valid URL'
-        }
-
-        default: {
-          return null
-        }
-      }
-    },
-    [errors.url]
-  )
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mt-14">
       <div className="flex items-end">
@@ -65,7 +42,7 @@ export function ShortUrlForm () {
           placeholder="https://www.example.com"
           label="Your URL"
           info={isCopying ? 'Copied on clipboard' : null}
-          after={isCopying ? CheckCircle : Copy}
+          after={isCopying ? Check : Copy}
           register={register}
           onClickAfter={handleCopy}
           error={errors.url}
@@ -76,9 +53,10 @@ export function ShortUrlForm () {
       </div>
       <div className="mt-2 h-6">
         {
-          urlError && (
+          errors.url && (
             <Badge variant="error">
-              {urlError}
+              {errors.url.type === 'required' && 'URL is required'}
+              {errors.url.type === 'validate' && 'URL is invalid'}
             </Badge>
           )
         }
