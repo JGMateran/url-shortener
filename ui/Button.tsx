@@ -17,7 +17,7 @@ export function Button ({
     {
       'h-14 px-4 text-base': size === 'large',
       'h-10 px-3 text-sm': size === 'small',
-      'text-white bg-blue-600 rounded-md font-bold ring-blue-200 shadow-xl shadow-blue-500/20': variant === 'base'
+      'text-white bg-blue-700 rounded-md font-bold ring-blue-200 shadow-xl shadow-blue-500/20': variant === 'base'
     }
   )
 
