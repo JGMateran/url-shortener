@@ -8,6 +8,9 @@ import { Input } from '@/ui/Input'
 import { Badge } from '@/ui/Badge'
 
 import { useCopy } from '@/hooks/useCopy'
+import { useShortenUrl } from '@/store/ShortenUrlStore'
+
+import { setStore } from '@/lib/localStore'
 
 type Data = {
   url: string
@@ -18,10 +21,13 @@ export function ShortUrlForm () {
     handleSubmit,
     register,
     getValues,
+    setValue,
     formState: {
       errors
     }
   } = useForm<Data>()
+
+  const { dispatch } = useShortenUrl()
 
   const { copy, isCopying } = useCopy()
 
@@ -30,8 +36,32 @@ export function ShortUrlForm () {
     copy(url)
   }
 
-  const onSubmit: SubmitHandler<Data> = (data) => {
-    console.log(data.url)
+  const onSubmit: SubmitHandler<Data> = async ({ url }) => {
+    const res = await fetch('/api/short', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ url })
+    })
+
+    const { error, data } = await res.json()
+
+    console.log({ error, data })
+
+    if (error == null) {
+      setStore('reburn-shorten-urls', (store) => ([
+        ...store,
+        data
+      ]))
+
+      dispatch({
+        type: 'insert',
+        payload: data
+      })
+
+      setValue('url', `http://localhost:3000/${data.alias}`)
+    }
   }
 
   return (

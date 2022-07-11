@@ -3,20 +3,11 @@ import { Text } from '@/ui/Text'
 
 import { ShortUrlItem } from '@/components/ShortUrlItem'
 
-const links = [
-  {
-    id: 0,
-    original: 'https://www.google.com',
-    shorten: 'short.ly/odc32IUB'
-  },
-  {
-    id: 1,
-    original: 'https://www.facebook.com',
-    shorten: 'short.ly/odc32IUB'
-  }
-]
+import { useShortenUrl } from '@/store/ShortenUrlStore'
 
 export function ShortUrlList () {
+  const { state: links } = useShortenUrl()
+
   return (
     <div>
       <div className="border-y border-neutral-800 h-16 justify-center flex items-center">
@@ -25,7 +16,6 @@ export function ShortUrlList () {
         </Text>
       </div>
       <div className="py-20">
-
         <Container size="smaller">
           <h2 className="text-3xl text-center font-bold mb-2">
             All your links
@@ -35,19 +25,15 @@ export function ShortUrlList () {
           </Text>
         </Container>
         <Container size="small">
-          <table className="w-full align-middle ">
-            <tbody>
-              {
-                links.map(({ id, original, shorten }) => (
-                  <ShortUrlItem
-                    key={id}
-                    original={original}
-                    shorten={shorten}
-                  />
-                ))
-              }
-            </tbody>
-          </table>
+          {
+            links.map(({ alias, url }) => (
+              <ShortUrlItem
+                key={alias}
+                original={url}
+                shorten={alias}
+              />
+            ))
+          }
         </Container>
       </div>
     </div>
