@@ -6,8 +6,6 @@ export const VALID_ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLM
 
 export const VALID_ALPHABET_LENGTH = 8
 
-export const SHORTEN_URLS_STORAGE_KEY = 'reburn-shorten-urls'
-
 export const HOME_URL = process.env.NODE_ENV === 'development'
   ? 'http://localhost:3000'
   : 'https://reburn-link.vercel.app'

@@ -1,9 +1,7 @@
-import { CollectionReference } from 'firebase-admin/firestore'
-
 import isURL from 'validator/lib/isURL'
 
 import { createAlias } from '@/lib/utils'
-import { db } from '@/lib/db'
+import { db } from '@/lib/supabase'
 
 type Data = {
   url: string,
@@ -11,8 +9,6 @@ type Data = {
 }
 
 type Maybe <T> = T | null | undefined
-
-const urlRef = db.collection('url') as CollectionReference<Data>
 
 export async function createShortUrl ({
   url,
@@ -27,17 +23,15 @@ export async function createShortUrl ({
     url = `http://${url}`
   }
 
-  await urlRef.add({ url, alias })
+  await db.from('shorten_url').insert({ url, alias })
 
   return { url, alias }
 }
 
 export async function getShortUrl (alias: string): Promise<Maybe<Data>> {
-  const shortenUrl = await urlRef.where('alias', '==', alias).get()
+  const { error, data } = await db.from('shorten_url').select('url, alias').eq('alias', alias).single()
 
-  if (shortenUrl.docs.length === 0) return null
-
-  const [data] = shortenUrl.docs.map((doc) => doc.data())
+  if (error) return null
 
   return data
 }
