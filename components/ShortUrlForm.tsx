@@ -12,6 +12,8 @@ import { useShortenUrl } from '@/store/ShortenUrlStore'
 
 import { setStore } from '@/lib/localStore'
 
+import { HOME_URL } from '@/lib/constants'
+
 type Data = {
   url: string
 }
@@ -60,7 +62,7 @@ export function ShortUrlForm () {
         payload: data
       })
 
-      setValue('url', `http://localhost:3000/${data.alias}`)
+      setValue('url', `${HOME_URL}/${data.alias}`)
     }
   }
 

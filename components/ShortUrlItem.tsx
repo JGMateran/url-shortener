@@ -30,7 +30,7 @@ export function ShortUrlItem ({
       className="flex p-6 items-center border-b last:border-b-0 border-dotted border-neutral-700"
     >
       <div className="flex-1 mr-6 truncate">
-        {isShow ? original : `http://localhost:3000/${shorten}`}
+        {isShow ? original : `${HOME_URL}/${shorten}`}
       </div>
 
       <div className="flex items-center space-x-6">
