@@ -18,7 +18,7 @@ const Home: NextPage = () => {
           The last URL Shortener you will need
         </h2>
         <Text priority="medium" className="text-center">
-          Lorem deleniti ea obcaecati harum quae est Culpa assumenda sapiente id facere ad numquam voluptates, accusamus. Unde odio velit aliquam sunt eligendi Ipsa cupiditate enim odio architecto cumque ratione? Quis
+          We are an open-source alternative to the link shorteners on the market. We are known for having all our code free and open-source for anyone who wants to see it for security, learn from it or make their own shortened based on ours.
         </Text>
 
         <ShortUrlForm />

@@ -21,7 +21,7 @@ export function ShortUrlList () {
             All your links
           </h2>
           <Text priority="medium" className="mb-10 text-center text-sm leading-6">
-            Recuerda que todos los links están almacenados en el localstorage, ten mucho cuidado.
+            Remember that all links are stored locally, so be very careful.
           </Text>
         </Container>
         <Container size="small">
